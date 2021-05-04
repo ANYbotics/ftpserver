@@ -12,8 +12,8 @@ import (
 	ftpserver "github.com/fclairamb/ftpserverlib"
 	"github.com/fclairamb/ftpserverlib/log/gokit"
 
-	"github.com/fclairamb/ftpserver/config"
-	"github.com/fclairamb/ftpserver/server"
+	"github.com/anybotics/ftpserver/config"
+	"github.com/anybotics/ftpserver/server"
 )
 
 var (

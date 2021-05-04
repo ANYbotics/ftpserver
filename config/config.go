@@ -8,8 +8,8 @@ import (
 
 	"github.com/fclairamb/ftpserverlib/log"
 
-	"github.com/fclairamb/ftpserver/config/confpar"
-	"github.com/fclairamb/ftpserver/fs"
+	"github.com/anybotics/ftpserver/config/confpar"
+	"github.com/anybotics/ftpserver/fs"
 )
 
 // ErrUnknownUser is returned when the provided user cannot be identified through our authentication mechanism

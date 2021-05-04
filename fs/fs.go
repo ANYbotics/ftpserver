@@ -7,13 +7,13 @@ import (
 	"github.com/fclairamb/ftpserverlib/log"
 	"github.com/spf13/afero"
 
-	"github.com/fclairamb/ftpserver/config/confpar"
-	"github.com/fclairamb/ftpserver/fs/afos"
-	"github.com/fclairamb/ftpserver/fs/dropbox"
-	"github.com/fclairamb/ftpserver/fs/gdrive"
-	"github.com/fclairamb/ftpserver/fs/mail"
-	"github.com/fclairamb/ftpserver/fs/s3"
-	"github.com/fclairamb/ftpserver/fs/sftp"
+	"github.com/anybotics/ftpserver/config/confpar"
+	"github.com/anybotics/ftpserver/fs/afos"
+	"github.com/anybotics/ftpserver/fs/dropbox"
+	"github.com/anybotics/ftpserver/fs/gdrive"
+	"github.com/anybotics/ftpserver/fs/mail"
+	"github.com/anybotics/ftpserver/fs/s3"
+	"github.com/anybotics/ftpserver/fs/sftp"
 )
 
 // UnsupportedFsError is returned when the described file system is not supported

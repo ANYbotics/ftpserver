@@ -12,9 +12,9 @@ import (
 	serverlib "github.com/fclairamb/ftpserverlib"
 	"github.com/fclairamb/ftpserverlib/log"
 
-	"github.com/fclairamb/ftpserver/config"
-	"github.com/fclairamb/ftpserver/fs"
-	"github.com/fclairamb/ftpserver/fs/fslog"
+	"github.com/anybotics/ftpserver/config"
+	"github.com/anybotics/ftpserver/fs"
+	"github.com/anybotics/ftpserver/fs/fslog"
 )
 
 // Server structure

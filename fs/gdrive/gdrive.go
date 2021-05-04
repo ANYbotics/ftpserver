@@ -7,13 +7,13 @@ import (
 	"fmt"
 	"os"
 
-	drv "github.com/fclairamb/afero-gdrive"
-	drvoa "github.com/fclairamb/afero-gdrive/oauthhelper"
+	drv "github.com/anybotics/afero-gdrive"
+	drvoa "github.com/anybotics/afero-gdrive/oauthhelper"
 	"github.com/fclairamb/ftpserverlib/log"
 	"github.com/spf13/afero"
 	"golang.org/x/oauth2"
 
-	"github.com/fclairamb/ftpserver/config/confpar"
+	"github.com/anybotics/ftpserver/config/confpar"
 )
 
 // ErrMissingGoogleClientCredentials is returned when you have specified the google_client_id and/or
@@ -25,6 +25,9 @@ func LoadFs(access *confpar.Access, logger log.Logger) (afero.Fs, error) {
 	logger = logger.With("fs", "gdrive")
 	googleClientID := access.Params["google_client_id"]
 	googleClientSecret := access.Params["google_client_secret"]
+	googleServiceAccoutEmail := access.Params["google_service_account_email"]
+	googleServiceAccoutKey := access.Params["google_service_account_key"]
+	googleDriveId := access.Params["google_drive_id"]
 	tokenFile := access.Params["token_file"]
 
 	if googleClientID == "" {
@@ -35,7 +38,25 @@ func LoadFs(access *confpar.Access, logger log.Logger) (afero.Fs, error) {
 		googleClientSecret = os.Getenv("GOOGLE_CLIENT_SECRET")
 	}
 
-	if googleClientID == "" || googleClientSecret == "" {
+	if googleServiceAccoutEmail == "" {
+		googleServiceAccoutEmail = os.Getenv("GOOGLE_SERVICE_ACCOUNT_EMAIL")
+	}
+
+	if googleServiceAccoutKey == "" {
+		googleServiceAccoutKey = os.Getenv("GOOGLE_SERVICE_ACCOUNT_KEY")
+	}
+
+	if googleDriveId == "" {
+		googleDriveId = os.Getenv("GOOGLE_DRIVE_ID")
+	}
+	if googleDriveId == "" {
+		googleDriveId = "root"
+	}
+
+	noGoogleClient := (googleClientID == "" || googleClientSecret == "")
+	noGoogleServiceAccount := (googleServiceAccoutEmail == "" || googleServiceAccoutKey == "")
+
+	if noGoogleClient && noGoogleServiceAccount {
 		return nil, ErrMissingGoogleClientCredentials
 	}
 
@@ -64,6 +85,8 @@ func LoadFs(access *confpar.Access, logger log.Logger) (afero.Fs, error) {
 	auth := drvoa.Auth{
 		ClientID:     googleClientID,
 		ClientSecret: googleClientSecret,
+		ServiceAccountEmail: googleServiceAccoutEmail,
+		ServiceAccountKey: googleServiceAccoutKey,
 		Token:        token,
 		Authenticate: func(url string) (string, error) {
 			fmt.Printf("Please go to %s and enter the received code:\n", url)
@@ -84,5 +107,5 @@ func LoadFs(access *confpar.Access, logger log.Logger) (afero.Fs, error) {
 		}
 	}
 
-	return drv.New(httpClient)
+	return drv.New(httpClient, drv.RootDrive(googleDriveId,""))
 }
